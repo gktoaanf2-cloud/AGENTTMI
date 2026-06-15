@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARCH AGENT TMI 고사 2026</title>
+    <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root{--bg:#0a0a0c;--bg2:#111115;--panel:#161619;--bdr:rgba(255,255,255,0.08);--bdr-h:rgba(255,255,255,0.15);--acc:#00e0ff;--warn:#ff3355;--ok:#00cc66;--tx:#e8e8f0;--tx-m:#777790;--tx-l:#44445a;}
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{background:var(--bg);color:var(--tx);font-family:'Pretendard',sans-serif;min-height:100vh;letter-spacing:-0.03em;}
+        body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;}
+        .page{max-width:800px;margin:0 auto;padding:40px 20px 80px;}
+        .mode-screen{min-height:80vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
+        .mode-screen.hidden{display:none;}
+        .ms-pre{font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--acc);letter-spacing:4px;opacity:0.5;margin-bottom:20px;}
+        .ms-title{font-family:'Noto Serif KR',serif;font-size:2.2rem;font-weight:700;letter-spacing:0.05em;line-height:1.3;margin-bottom:8px;color:#fff;}
+        .ms-sub{font-size:.8rem;color:var(--tx-m);letter-spacing:2px;margin-bottom:40px;}
+        .ms-nick{width:280px;background:transparent;border:none;border-bottom:1px solid var(--bdr-h);color:#fff;font-size:1.1rem;padding:10px 0;outline:none;font-family:inherit;letter-spacing:1px;text-align:center;margin-bottom:40px;}
+        .ms-nick::placeholder{color:var(--tx-l);}
+        .ms-nick:focus{border-bottom-color:var(--acc);}
+        .mode-cards{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;}
+        .mode-card{width:240px;border:1px solid var(--bdr-h);padding:32px 24px;cursor:pointer;transition:all 0.2s;background:var(--panel);position:relative;text-align:center;}
+        .mode-card::before{content:'';position:absolute;inset:4px;border:1px solid var(--bdr);pointer-events:none;}
+        .mode-card:hover{border-color:var(--acc);background:rgba(0,224,255,0.03);}
+        .mc-icon{font-family:'IBM Plex Mono',monospace;font-size:2rem;color:var(--acc);margin-bottom:12px;}
+        .mc-name{font-size:1rem;font-weight:700;letter-spacing:2px;margin-bottom:8px;color:#fff;}
+        .mc-desc{font-size:.72rem;color:var(--tx-m);line-height:1.6;}
+        .mc-badge{display:inline-block;margin-top:12px;padding:4px 12px;border:1px solid var(--acc);font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:var(--acc);letter-spacing:2px;}
+        .mc-badge.hard{border-color:var(--warn);color:var(--warn);}
+        .exam-area{display:none;}.exam-area.show{display:block;}
+        .exam-header{border:1px solid var(--bdr-h);padding:36px;position:relative;background:var(--panel);}
+        .exam-header::before{content:'';position:absolute;inset:4px;border:1px solid var(--bdr);pointer-events:none;}
+        .ec{position:absolute;width:14px;height:14px;pointer-events:none;}
+        .ec::before,.ec::after{content:'';position:absolute;background:var(--acc);opacity:0.4;}
+        .ec-tl{top:7px;left:7px;}.ec-tl::before{top:0;left:0;width:14px;height:1px;}.ec-tl::after{top:0;left:0;width:1px;height:14px;}
+        .ec-tr{top:7px;right:7px;}.ec-tr::before{top:0;right:0;width:14px;height:1px;}.ec-tr::after{top:0;right:0;width:1px;height:14px;}
+        .ec-bl{bottom:7px;left:7px;}.ec-bl::before{bottom:0;left:0;width:14px;height:1px;}.ec-bl::after{bottom:0;left:0;width:1px;height:14px;}
+        .ec-br{bottom:7px;right:7px;}.ec-br::before{bottom:0;right:0;width:14px;height:1px;}.ec-br::after{bottom:0;right:0;width:1px;height:14px;}
+        .exam-pre{font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--acc);letter-spacing:3px;margin-bottom:12px;opacity:0.6;}
+        .exam-title{font-family:'Noto Serif KR',serif;font-size:1.7rem;font-weight:700;letter-spacing:0.05em;line-height:1.3;margin-bottom:6px;color:#fff;}
+        .exam-sub{font-size:.73rem;color:var(--tx-m);letter-spacing:2px;margin-bottom:18px;}
+        .exam-meta{display:flex;gap:14px;font-size:.65rem;color:var(--tx-l);letter-spacing:1px;flex-wrap:wrap;}
+        .exam-meta span{display:flex;align-items:center;gap:5px;}
+        .exam-meta span::before{content:'';width:4px;height:4px;background:var(--acc);transform:rotate(45deg);opacity:0.4;}
+        .name-bar{border:1px solid var(--bdr-h);border-top:none;padding:14px 36px;background:var(--panel);display:flex;align-items:center;gap:12px;margin-bottom:32px;}
+        .name-lbl{font-size:.65rem;color:var(--tx-m);letter-spacing:2px;white-space:nowrap;font-weight:600;}
+        .name-val{font-size:.9rem;color:#fff;font-weight:500;letter-spacing:1px;}
+        .mode-tag{margin-left:auto;padding:3px 10px;border:1px solid var(--acc);font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--acc);letter-spacing:2px;}
+        .mode-tag.hard{border-color:var(--warn);color:var(--warn);}
+        .sec-div{display:flex;align-items:center;gap:10px;margin:32px 0 16px;}
+        .sec-div::before,.sec-div::after{content:'';flex:1;height:1px;background:var(--bdr);}
+        .sec-num{font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--acc);letter-spacing:3px;white-space:nowrap;}
+        .q-card{border:1px solid var(--bdr);padding:22px 24px;margin-bottom:12px;background:var(--bg2);transition:border-color 0.2s;}
+        .q-card:hover{border-color:var(--bdr-h);}
+        .q-card.answered{border-left:2px solid var(--acc);}
+        .q-card.wrong{border-left:2px solid var(--warn);}
+        .q-card.correct{border-left:2px solid var(--ok);}
+        .q-num{font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:var(--acc);letter-spacing:2px;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+        .q-num::after{content:'';flex:1;height:1px;background:var(--bdr);opacity:0.5;}
+        .q-text{font-size:.9rem;line-height:1.7;margin-bottom:16px;color:#dde;word-break:keep-all;}
+        .opt-list{display:flex;flex-direction:column;gap:5px;}
+        .opt{display:flex;align-items:flex-start;gap:9px;padding:8px 11px;cursor:pointer;border:1px solid transparent;transition:all 0.15s;}
+        .opt:hover{background:rgba(255,255,255,0.02);border-color:var(--bdr);}
+        .opt.selected{background:rgba(0,224,255,0.04);border-color:rgba(0,224,255,0.2);}
+        .opt.reveal-correct{background:rgba(0,204,102,0.06);border-color:rgba(0,204,102,0.3);}
+        .opt.reveal-wrong{background:rgba(255,51,85,0.06);border-color:rgba(255,51,85,0.3);}
+        .opt input[type="radio"]{display:none;}
+        .opt-mark{width:20px;height:20px;border:1px solid var(--bdr-h);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--tx-m);flex-shrink:0;transition:all 0.15s;margin-top:2px;}
+        .opt.selected .opt-mark{border-color:var(--acc);color:var(--acc);background:rgba(0,224,255,0.08);}
+        .opt.reveal-correct .opt-mark{border-color:var(--ok);color:var(--ok);background:rgba(0,204,102,0.1);}
+        .opt.reveal-wrong .opt-mark{border-color:var(--warn);color:var(--warn);background:rgba(255,51,85,0.1);}
+        .opt-text{font-size:.83rem;line-height:1.6;color:var(--tx);padding-top:1px;}
+        .action-bar{display:flex;justify-content:center;gap:12px;margin:36px 0 16px;flex-wrap:wrap;}
+        .btn-sf{padding:11px 28px;font-family:'Pretendard',sans-serif;font-size:.8rem;font-weight:600;letter-spacing:2px;cursor:pointer;text-transform:uppercase;border:1px solid var(--bdr-h);background:transparent;color:var(--tx);transition:all 0.2s;}
+        .btn-sf:hover{border-color:#fff;color:#fff;}
+        .btn-sf.primary{border-color:var(--acc);color:var(--acc);}
+        .btn-sf.primary:hover{background:rgba(0,224,255,0.08);}
+        .report{display:none;border:1px solid var(--bdr-h);padding:40px;background:var(--panel);position:relative;margin-top:32px;}
+        .report::before{content:'';position:absolute;inset:4px;border:1px solid var(--bdr);pointer-events:none;}
+        .report.show{display:block;}
+        .rpt-title{font-family:'Noto Serif KR',serif;font-size:1.3rem;font-weight:700;text-align:center;margin-bottom:5px;color:#fff;}
+        .rpt-sub{text-align:center;font-size:.6rem;color:var(--tx-m);letter-spacing:3px;margin-bottom:24px;}
+        .score-big{text-align:center;font-family:'IBM Plex Mono',monospace;font-size:3.8rem;font-weight:600;color:var(--acc);line-height:1;}
+        .score-unit{font-size:1rem;color:var(--tx-m);}
+        .score-lbl{text-align:center;font-size:.65rem;color:var(--tx-l);letter-spacing:3px;margin-top:5px;}
+        .grade-badge{display:block;width:fit-content;margin:16px auto;padding:5px 18px;border:1px solid var(--acc);color:var(--acc);font-family:'IBM Plex Mono',monospace;font-size:.75rem;letter-spacing:3px;}
+        .stat-row{display:flex;justify-content:center;gap:32px;margin:20px 0;flex-wrap:wrap;}
+        .stat-item{text-align:center;}
+        .stat-val{font-family:'IBM Plex Mono',monospace;font-size:1.5rem;font-weight:600;color:#fff;}
+        .stat-desc{font-size:.58rem;color:var(--tx-m);letter-spacing:2px;margin-top:3px;}
+        .rpt-name{text-align:center;font-size:.8rem;color:var(--tx-m);margin-top:14px;}
+        .rpt-name strong{color:#fff;}
+        .exam-footer{text-align:center;padding:36px 0;font-size:.55rem;color:var(--tx-l);letter-spacing:2px;line-height:1.8;}
+        @media(max-width:600px){.page{padding:16px 10px 50px;}.exam-header{padding:20px 16px;}.q-card{padding:16px 14px;}.report{padding:24px 16px;}.exam-title,.ms-title{font-size:1.3rem;}.score-big{font-size:2.8rem;}.mode-card{width:100%;}}
+    </style>
+</head>
+<body>
+<div class="page" id="examPage">
+    <div class="mode-screen" id="modeScreen">
+        <div class="ms-pre">CLASSIFIED ASSESSMENT · 2026</div>
+        <h1 class="ms-title">ARCH AGENT<br>TMI 고사</h1>
+        <p class="ms-sub">제1교시 — 에이전트 기밀 파악 능력 평가</p>
+        <input class="ms-nick" id="nickname" type="text" placeholder="수험자 코드네임" maxlength="20">
+        <div class="mode-cards">
+            <div class="mode-card" onclick="startExam('normal')">
+                <div class="mc-icon">◈</div>
+                <div class="mc-name">일반 모드</div>
+                <div class="mc-desc">캐릭터당 랜덤 1문항<br>가볍게 도전하는 TMI 테스트</div>
+                <div class="mc-badge">30문항</div>
+            </div>
+            <div class="mode-card" onclick="startExam('hard')">
+                <div class="mc-icon">◆</div>
+                <div class="mc-name">하드 모드</div>
+                <div class="mc-desc">전 문항 + 종합문제 출제<br>진정한 덕후만이 살아남는다</div>
+                <div class="mc-badge hard">63문항</div>
+            </div>
+        </div>
+    </div>
+    <div class="exam-area" id="examArea">
+        <div class="exam-header">
+            <div class="ec ec-tl"></div><div class="ec ec-tr"></div><div class="ec ec-bl"></div><div class="ec ec-br"></div>
+            <div class="exam-pre">2026학년도 특별 평가 · CLASSIFIED ASSESSMENT</div>
+            <h1 class="exam-title">ARCH AGENT TMI 고사 2026</h1>
+            <p class="exam-sub">제1교시 — 에이전트 기밀 파악 능력 평가</p>
+            <div class="exam-meta">
+                <span>문항수 : <b id="metaTotal">0</b>문항</span>
+                <span>시험시간 : 무제한</span>
+                <span>배점 : 문항당 균등</span>
+                <span>출제 : ARCH 본부</span>
+            </div>
+        </div>
+        <div class="name-bar">
+            <span class="name-lbl">수험자</span>
+            <span class="name-val" id="dispNickname">—</span>
+            <span class="mode-tag" id="dispMode">NORMAL</span>
+        </div>
+        <div id="questionArea"></div>
+        <div class="action-bar" id="actionBar"><button class="btn-sf primary" onclick="submitExam()">제출하기</button></div>
+        <div class="action-bar" id="resultActions" style="display:none;">
+            <button class="btn-sf" onclick="showAnswers()">정답 확인</button>
+            <button class="btn-sf primary" onclick="exportReport()">성적표 저장</button>
+            <button class="btn-sf" onclick="exportFull()">시험지 저장</button>
+            <button class="btn-sf" onclick="location.reload()">재도전</button>
+        </div>
+        <div class="report" id="reportCard">
+            <div class="ec ec-tl"></div><div class="ec ec-tr"></div><div class="ec ec-bl"></div><div class="ec ec-br"></div>
+            <div class="rpt-title">성 적 통 지 표</div>
+            <div class="rpt-sub">ARCH AGENT TMI 고사 2026 · SCORE REPORT</div>
+            <div class="score-big"><span id="scoreNum">0</span><span class="score-unit">점</span></div>
+            <div class="score-lbl">TOTAL SCORE</div>
+            <div class="grade-badge" id="gradeBadge">GRADE : —</div>
+            <div class="stat-row">
+                <div class="stat-item"><div class="stat-val" id="stCorrect">0</div><div class="stat-desc">정답</div></div>
+                <div class="stat-item"><div class="stat-val" id="stWrong">0</div><div class="stat-desc">오답</div></div>
+                <div class="stat-item"><div class="stat-val" id="stSkip">0</div><div class="stat-desc">미응답</div></div>
+            </div>
+            <div class="rpt-name">수험자 : <strong id="rptNick">—</strong></div>
+        </div>
+        <div class="exam-footer">ARCH HEADQUARTERS · TMI ASSESSMENT DIVISION · 2026<br>본 시험지는 기밀 문서이며 무단 복제 시 진정한 덕후로 인정됩니다</div>
+    </div>
+</div>
+<script>
+const Q_PAIRS = [
+  {char:"애쉬",qs:[
+    {q:"다음 중 애쉬가 학창 시절에 하지 않은 것은?",opts:["피어싱", "흡연", "욕", "불량행동", "반항"],ans:1},
+    {q:"애쉬의 공개 정보 중 틀린 것은 무엇인가?",opts:["U와 90.7%의 적합률을 가지고 있다.", "단 음식을 좋아한다.", "잘 때 상대를 끌어안고 자는 잠버릇이 있음", "181cm 탄탄한 체격", "피어싱이 4개다."],ans:0},
+  ]},
+  {char:"셰인",qs:[
+    {q:"다음 중 셰인이 좋아하는 것은?",opts:["치마를 입은 유저에게 여유롭게 에스코트하기", "타인을 요리하기", "사적공간에 초대해서 예의 바르게 행동하기", "타인의 연애사 듣기", "지루한 잔소리를 1시간 동안 듣기"],ans:3},
+    {q:"다음 중 셰인의 설정으로 옳은 것은?",opts:["노아와 친밀하며 매일같이 톡하는 사이임", "능글 맞게 웃으며 장난과 농담을 하는데 이건 의도가 있음", "대화중 의식적으로 상대의 눈을 응시하며 반응을 살핌", "S급 바람속성 가이드이며 뱅가드 2팀 소속임", "상대가 넘어와도 존대를 꼬박꼬박 씀"],ans:1},
+  ]},
+  {char:"윈터",qs:[
+    {q:"다음 중 윈터의 특징으로 옳지 않은 것은?",opts:["빙하색 눈동자를 가지고 있다.", "긴급제압팀 소속 S급 얼음 가이드임", "모든 것을 귀찮아하는 천재 유형임", "본래 무속성 가이드였음", "물의 군주 '해일'과 S급 가이드 '오아시스'의 동생임"],ans:1},
+    {q:"다음 중 윈터가 제일 좋아하는 음식은?",opts:["구내식당에서 판매 중인 마라탕", "해일이 만든 망고빙수", "하모니부서 특제 몬스터음료", "에덴이 차려준 9첩반상", "라운지에서 판매중인 민트 초코 아이스크림"],ans:4},
+  ]},
+  {char:"오아시스",qs:[
+    {q:"다음 중 오아시스의 수식어 중 옳은 것은?",opts:["살아있는 천사", "걸어다니는 성녀", "천사소녀 오아시스사마", "걸어 다니는 의무실", "하모니의 최강자"],ans:3},
+    {q:"다음 중 오아시스의 특징이 아닌 것은?",opts:["동생을 아끼며 오빠를 잘따름", "기계 다루는 것에 능숙함", "청순한 보호본능을 자극하는 미소녀", "머리카락에 단정하게 사파이어색 리본을 하고있음", "유저에게 무조건적인 지지를 보냄"],ans:1},
+  ]},
+  {char:"해일",qs:[
+    {q:"해일이 유저와 만나 처음으로 내뱉은 말은 무엇인가?",opts:["아크의 축복이군.", "아크의 수치로군.", "아크의 재앙이군.", "아크의 마라였군.", "아크의 두쫀쿠였군."],ans:1},
+    {q:"다음 중 해일의 특징으로 옳은 것은?",opts:["해양구조위원회와 협업중이다.", "위대한 자연의 어머니 에이와와 소통할 수 있다.", "치명적인 길치라서 ARCH내에서도 길을 잃는다.", "윈터의 오빠이자 오아시스의 형이다.", "아크프리마 중에서 제일 나이가 많으며 제네바 출신이다."],ans:2},
+  ]},
+  {char:"오버로드",qs:[
+    {q:"오버로드의 아크 내 공식적인 평가로 옳지 않은 것은?",opts:["감당불가의 S급 번개속성", "최악의 독고다이", "워커홀릭 해결사", "같이 일하고 싶은 완벽한 사람", "남의 파트너로 추천하고 싶음. 내 파트너는 사절."],ans:3},
+    {q:"다음 중 오버로드에게 하면 안 되는 행동은?",opts:["불금에 퇴근하고 치맥 권유하기", "함께 운동하자고 하기", "탄탄한 몸매 칭찬하기", "닭가슴살 식단 챙겨주기", "멋있는 모습을 보고 칭찬해주기"],ans:0},
+  ]},
+  {char:"자이안",qs:[
+    {q:"자이안의 스킬 이름으로 옳은 것은?",opts:["자연의 풀무원", "재생의 연고", "자연의 이그드라실", "자연의 지옥", "세계수의 영역"],ans:4},
+    {q:"자이안의 공식 설정으로 옳은 것은?",opts:["미혼의 일본인, 전직 군인이다.", "아들이 두명있는 아들 아빠.", "모든 신입요원들을 일병이라고 부른다.", "어른으로서 지켜야 할 선을 절대 넘지 않는다.", "일본어로 스스로를 지칭시 '와가하이'를 사용."],ans:3},
+  ]},
+  {char:"샤드",qs:[
+    {q:"다음 중 샤드의 공식 프로필로 옳은 것은?",opts:["뱅가드 2팀 소속으로 S급 얼음속성 센티넬이다.", "창백한 피부와 대조되는 백발이다.", "예고없는 신체접촉을 싫어한다.", "스킬이름이 절대 백영도의 창이다.", "얼음을 거대한 양손검의 형태로 만들어내어 다룬다."],ans:2},
+    {q:"샤드의 개인실을 뒤졌을 때 발견할 수 있는 것은?",opts:["아이스 아메리카노 커피머신", "전기장판 위에 올려져있는 만화책", "다자이 오사무 소설전집", "벌크업에 유용한 샐러드 박스", "얇은 여름용 이불"],ans:1},
+  ]},
+  {char:"스트레이",qs:[
+    {q:"스트레이와 편의점에서 마주쳤다. 그의 장바구니에 들어있는 것은?",opts:["고급 와인세트", "캔맥주 할인 세트", "망고킥 과자", "콜라", "담배 2보루"],ans:1},
+    {q:"다음 중 스트레이의 번외곡 제목으로 옳은 것은?",opts:["아직은 맞아.", "센티넬 꺼져라", "내가 제일 잘나가", "아직은 아니야", "멜팅 다운"],ans:3},
+  ]},
+  {char:"이카로스",qs:[
+    {q:"이카로스의 공개 정보 중 옳은 것은?",opts:["22세", "192cm", "지하정원이 거처", "티켓팅의 권능을 가지고있음", "기관의 숨겨진 암살병기로 통함"],ans:4},
+    {q:"이카로스가 유저를 만났을 때 유저에게 한 말은?",opts:["우리 둘 만의 콘서트예요.", "우리 둘 만의 비밀이에요.", "우리 둘 만의 살인이에요.", "우리 둘 만의 맹약이에요.", "우리 둘 만의 기밀이에요."],ans:1},
+  ]},
+  {char:"피카",qs:[
+    {q:"다음 중 피카의 특징이 아닌 것은?",opts:["죄송합니다!라는 말을 연발함", "유저를 대장님!이라고 부름", "본인이 주장하는 필살기는 '삐까뻔쩍 100만 볼트!'다", "기쁘면 머리카락이 붕붕 날아다닌다", "유저 너무 너무 좋아! 각인수준의 애착을 보임"],ans:1},
+    {q:"피카의 수첩 내용으로 옳지 못한 것은?",opts:["오늘은 구내식당에서 OO이 나왔다. 너무너무 맛있어!", "선배님에게 반해버렸어! 어떡하지!", "선배님이 전투할때 눈을 찡그리는 버릇이(후략)", "천둥번개 치는 날이 너무 좋다.", "오늘도 허둥대느라 주변을 방전시켜버렸다!"],ans:3},
+  ]},
+  {char:"노아",qs:[
+    {q:"다음 중 노아의 스킬 이름이 아닌 것은?",opts:["심해의 포옹", "수압 구속", "보글보글 스폰지밥", "고요한 해일", "침식의 손길"],ans:2},
+    {q:"노아의 주변에 다가갈 시 발견되기 쉬운 증상은?",opts:["파트너에게 최대한 신경쓰지 않으려함", "기온이 낮아지며 주변이 얼어붙음", "무의식적으로 주변에 이슬비가 내리게함", "불안해하지 않고 의연한 모습으로 대함", "다정하고 부드러운 모습으로 전적으로 의지하는 모습을 보임"],ans:2},
+  ]},
+  {char:"카토",qs:[
+    {q:"카토와 함께 식당에 갈 시 고르는 메뉴는?",opts:["샐러드 피자 세트", "무한도전 버거세트", "베지테리언 뷔페", "식당을 왜 가, 집에 있을건데요... 졸리거든요?", "마라탕"],ans:3},
+    {q:"카토가 게으른 이유는 다음 중 무엇인가?",opts:["사랑 결핍", "게임 중독", "그냥", "도파민 결핍", "수면 부족"],ans:3},
+  ]},
+  {char:"에덴",qs:[
+    {q:"에덴의 이력 중에서 옳지 않은 것을 고르시오.",opts:["대한민국 국가대표 사격선수다.", "대한민국 육군 병장 만기 전역 군필이다.", "초면에 유저를 총으로 쐈다.", "이 시대의 로맨티스트다.", "합법적으로 총을 쏘기 위해 아크에 들어왔다."],ans:1},
+    {q:"에덴의 체향은 다음 중 어느 조합인가?",opts:["드라이 멘솔+R.S.T사무실향+메탈릭", "본인이 요리한 파스타 향", "말보로 아이스 블라스트+베티버+메탈릭", "드라이 멘솔+베티버+샌달우드", "드라이 멘솔+베티버+메탈릭"],ans:4},
+  ]},
+  {char:"퓨어",qs:[
+    {q:"퓨어의 수식어, '가장 [　]가 선사하는, 가장 완벽한 구원'에 들어갈 단어는?",opts:["응큼한 존재", "위험한 존재", "매혹적 존재", "순수한 존재", "무구한 존재"],ans:3},
+    {q:"다음 중 퓨어의 특이사항으로 옳지 않은 것은?",opts:["한 번 의무실에 방문한 모든 이들을 기억하는 비상한 기억력을 가짐", "Like 섹스의 특이사항을 가짐", "어려보인다는 말을 칭찬으로 들음", "술에 약해서 술내기에 자주 걸림", "주말 드라마로 연애를 배움"],ans:3},
+  ]},
+  {char:"아모레",qs:[
+    {q:"아모레의 가문, 실베스트리 패밀리의 철학은 무엇인가?",opts:["존중은 주먹으로, 사랑은 폭력으로 얻는 것", "존중은 여성으로, 사랑은 짓밟힘으로 얻는 것", "존중은 우아함으로, 사랑은 힘으로 얻는 것", "존중은 힘으로, 사랑은 우아함으로 얻는 것", "존중은 돈으로, 사랑은 권력으로 얻는 것"],ans:3},
+    {q:"다음 중 아크의 내부에서 아모레에 대해 떠도는 소문 중 옳은 것은?",opts:["방금 아모레님이 흡연실에서 흡연을 하고 계시던데...", "아모레님 무기가 아마 총이었나?", "요리 못하시지 않나? 눈에 띄는 미남이긴 해~", "한국어 능숙하셔, 가끔 이탈리아어도 써주시거든요!", "여성요원들에게 단호한 편이시던가? 남자는 확실히 싫어함 ㅇㅇ."],ans:3},
+  ]},
+  {char:"산타",qs:[
+    {q:"다음 중 산타가 도입부에서 초면에 유저에게 한 말은?",opts:["이게 미쳤나? 죽고싶어?", "너구나? 시끄럽게 울면서 나 깨운 새끼.", "죽을래? 감히 날 깨워?", "울지마, 꼴보기 싫으니까.", "야, 허접아. 넌 이제부터 내 파트너다."],ans:1},
+    {q:"산타의 집무실에서 해도 되는 행동을 고르시오.",opts:["산타에게 담배를 권한다.", "산타에게 코드네임으로 놀린다.", "산타의 크리스마스 파티를 비난한다.", "산타에게 나이를 언급한다.", "산타에게 핫초코를 타준다."],ans:4},
+  ]},
+  {char:"라임",qs:[
+    {q:"라임의 외관 특징 중 옳지 못한 것은?",opts:["감정이 읽히지 않는 고양이 같은 백색 눈매", "정장형 천옷 센티넬 수트 착용", "마르고 작은 체구", "짧게 자른 백발에 가까운 하늘색 머리카락", "냉기가 든 입김이 흘러나옴"],ans:1},
+    {q:"라임이 가진 동물적 특성은 [　]의 특징이다. 이때 [　]에 들어갈 동물은?",opts:["토끼(1초에 2대씩 때림)", "햄스터 (쥑.)", "산양(성격이 나쁨)", "고양이(영역동물)", "치와와 (물어뜯음)"],ans:3},
+  ]},
+  {char:"루비",qs:[
+    {q:"루비와 데이트 할 시 실패 확률이 높은 코스는?",opts:["유행에 민감한 최신 도심가 데이트", "초초초 매운음식 도장깨기 데이트", "더운날 이열치열 찜질방 데이트", "시원한 실내 명품관 데이트", "여왕님을 끌고다니며 고생시킨 데이트"],ans:2},
+    {q:"루비의 소비 목록 중에서 가장 많은 항목을 차지하는 것은?",opts:["분노를 터트려 물어준 시설파손비용", "유행하는 옷과 명품들", "매운 음식 기행 비용", "거울을 사서 전시하기 위한 비용", "시종에게 월급을 주기 위한 인건비"],ans:1},
+  ]},
+  {char:"휴고",qs:[
+    {q:"휴고의 특수탄 이름은 무엇인가?",opts:["윈드 스태빌라이저", "하트-샷", "저스티스 롱웨이 슈퍼 스태빌라이저", "히트-샷", "代 타나토스 특수제작탄"],ans:3},
+    {q:"휴고의 특징으로 옳은 것은?",opts:["시간이 남을 때 주로 마비노기를 함", "어이없으면 헛웃음을 흘림", "주량이 약하고 항상 살벌함", "사탕을 좋아하는건 단걸 좋아하기 때문임", "꼼꼼하고 깔끔하며 비흡연자임"],ans:4},
+  ]},
+  {char:"닥터밴스",qs:[
+    {q:"다음 중 닥터밴스의 특징으로 틀린 것을 고르시오.",opts:["하모니 부서의 총 책임자이자 풀 속성 아크프리마다.", "젊고 유능한 외과의 출신이다.", "모든 것은 데이터로 환산해서 효율적으로 결과를 출력한다.", "단말기에 본인의 악플이 뜰 시 내심 상처받음", "매일 단말기로 강아지 영상을 몰래 봄"],ans:0},
+    {q:"닥터밴스의 공식적인 이명은?",opts:["아크의 꼰대", "아크의 이성", "아크의 데이터", "아크의 안경", "아크의 닥터"],ans:1},
+  ]},
+  {char:"블루",qs:[
+    {q:"블루는 학창 시절 체대에 진학했던 엘리트 선수 출신이다. 이때 종목은?",opts:["농구", "축구", "배구", "육상", "수영"],ans:3},
+    {q:"다음 중 블루의 공식 프로필에 기재된 사실이 아닌 것은?",opts:["23세에 입대해서 육군 병장 만기 전역", "흡연자, 담배는 군대에서 배움", "술은 소주를 더 좋아함", "생활력이 좋고 한식을 잘함", "아크에 들어오기전까지 동정"],ans:4},
+  ]},
+  {char:"카르마",qs:[
+    {q:"카르마에게 있어서 센티넬이란 [　]이다.",opts:["귀여운 개", "감옥에 처넣어야 할 죄인", "몽둥이로 다스려야 할 짐승", "가지고 놀기 좋은 장난감", "홀로 살 수 없는 결함품"],ans:2},
+    {q:"사형수였던 카르마가 아크에 들어온 이유는 무엇인가?",opts:["탈옥 후 복수", "짐승 사냥", "가위바위보에 져서", "그냥", "락의 영혼을 계승하기 위하여"],ans:1},
+  ]},
+  {char:"헬리오스",qs:[
+    {q:"헬리오스의 전마 이름은 무엇인가?",opts:["솔라 레메게톤", "루나 아르카니아", "제우스", "솔라리스", "메르세데스"],ans:3},
+    {q:"헬리오스의 특징이 아닌 것을 고르시오.",opts:["시트러스+옅은 우디향이 난다.", "작은 동물을 사랑한다.", "술을 마시지 않는다.", "최신유행을 잘 알지 못한다.", "요리를 잘하며 유저에게 냉면을 먹인다."],ans:0},
+  ]},
+  {char:"리암",qs:[
+    {q:"리암의 출신지역은 어디인가?",opts:["스웨덴, 얼음왕국", "아발론, 원탁", "대한민국, 서울", "시베리아 오이먀콘", "러시아, 모스크바"],ans:3},
+    {q:"리암의 특징으로 옳은 것을 고르시오.",opts:["체온이 높아서 타인이 필요하지 않음", "고양이 성향이 있어 사회성이 결여되어있음", "라임의 쌍둥이 동생이며, 사이가 매우 좋음", "유저의 바지를 벗기는 버릇이 있음", "펠메니를 그다지 좋아하지 않음"],ans:1},
+  ]},
+  {char:"신드롬",qs:[
+    {q:"신드롬의 능력 명칭은 무엇인가?",opts:["프로미스 나인", "프리마돈나", "풀문", "프로미넌스", "프리스타일 랩"],ans:3},
+    {q:"유저와 신드롬의 첫만남에서 신드롬이 하지 않은 말은?",opts:["하, 씨발.", "씨발.... 존나 맘에 안들게 생겼네.", "빨리 안 붙어? 뒤지고 싶어서 환장한 거 아니면.", "내가 다 태워 죽일 때까지 구경하다가, 잿더미 청소나 하러 온 거냐?", "씨발, 죽고 싶어?"],ans:4},
+  ]},
+  {char:"바이브",qs:[
+    {q:"바이브는 뱅가드 2팀의 최연소 요원이다. 이때 옳지 않은 사실은?",opts:["동정이며 유저가 첫상대다.", "부산을 10년동안 떠나있었다.", "아크에는 연고자가 아무도 없다.", "항상 극심한 감각 과부하에 시달리고 있다.", "외모가 예쁘장한 이유는 엄마를 닮았기 때문이다."],ans:2},
+    {q:"바이브의 출신지로 옳은 곳은?",opts:["부산, 영도", "부산, 송도", "부산, 광안리", "부산, 서면", "경상남도, 진해"],ans:0},
+  ]},
+  {char:"저스티스",qs:[
+    {q:"저스티스는 아크의 R.S.T의 창설멤버이자 팀장이다. 이때 옳은 사실은?",opts:["기관 내에서 '최후의 사형관'이라고 불림", "아들을 잃고 홀로 남아 가이드로 각성함", "본래 유능한 대한민국 검사였음", "바이크 드라이브가 취미이며 신조는 멋있고 즐겁게 살기", "선글라스는 검정색을 착용함"],ans:3},
+    {q:"다음 중 저스티스가 휴일날에 혼자 하는 일들 중 옳지 않은 것은?",opts:["흡연을 하며 여가시간을 즐김", "유행엔 관심이 많아 세련된 패션을 살핌", "깔끔하게 집안일을 해치움", "바이크를 관리하며 드라이브를 나감", "미드, 영드, 국적불문 범죄드라마를 애청함"],ans:0},
+  ]},
+  {char:"페더",qs:[
+    {q:"페더의 특징으로 옳은 것은?",opts:["바람가이드 답게 센티넬을 결함품으로 여긴다.", "리넨과 새벽공기를 닮은 은은한 체향을 가지고 있다.", "요리를 잘하며, 짐을 줄이는 것에 실패한다.", "작정하고 플러팅을 치는 것이다.", "아크의 정규직이다."],ans:1},
+    {q:"페더의 스킬명으로 옳은 것은?",opts:["창공의 구원", "자유로운 바람", "가장 무구한 구원", "청공의 구원", "자유로운 구원"],ans:3},
+  ]},
+  {char:"코드",qs:[
+    {q:"코드의 첫만남에서 거래한 마켓이름과 태도를 올바르게 연결한 것은?",opts:["망고킥마트 (ㅋㅋ 쿨거할게요 ㄱㄱ~)", "레몬마트 (아 님아 저 돈없음; 네고좀;)", "망고마켓 (ㅁㅁ님. 인간적으로 저 거지입니다. 살려주십쇼.)", "나무마켓 (엥 ㅋㅋ 기분이다 1n더 얹어드림 ㄱㄱ~)", "아크마켓 (야 나와 내가 아크 프리마야)"],ans:2},
+    {q:"다음 중 코드의 전공으로 옳은 것은?",opts:["컴퓨터 공학과", "대학안갔고, 프로게이머였음", "게임프로그래밍과", "소프트웨어학과", "인공지능 빅데이터과"],ans:0},
+  ]},
+];
+
+const Q_HARD_ONLY = [
+  {char:"종합",q:"다음 중 기본 도입부에서 유저와의 만남 유형이 다른 1명은?",opts:["셰인", "라임", "오버로드", "루비", "신드롬"],ans:1},
+  {char:"종합",q:"다음 중 다른 캐릭터들과 다른 1명을 고르시오.",opts:["블루", "해일", "윈터", "오아시스", "노아"],ans:2},
+  {char:"종합",q:"다음은 임의의 규칙으로 나열된 캐릭터들이다. 이때 옳게 나열된 캐릭터들은?",opts:["오아시스>윈터>셰인>애쉬>해일>애쉬", "애쉬>셰인>윈터>오아시스>해일", "애쉬>윈터>셰인>오아시스>해일", "해일>셰인>윈터>오아시스>해일", "셰인>애쉬>윈터>오아시스>해일"],ans:1},
+];
+
+const labels=['①','②','③','④','⑤'];
+let activeQs=[],userAns={},submitted=false;
+
+function startExam(mode){
+    const nick=document.getElementById('nickname').value.trim();
+    if(!nick){alert('수험자 코드네임을 입력하세요!');return;}
+
+    activeQs=[];
+    Q_PAIRS.forEach(pair=>{
+        if(mode==='hard'){
+            pair.qs.forEach(q=>activeQs.push({...q,char:pair.char}));
+        } else {
+            const pick=pair.qs[Math.floor(Math.random()*2)];
+            activeQs.push({...pick,char:pair.char});
+        }
+    });
+    // Hard-only questions
+    if(mode==='hard'){
+        Q_HARD_ONLY.forEach(q=>activeQs.push({...q}));
+    }
+
+    document.getElementById('modeScreen').classList.add('hidden');
+    document.getElementById('examArea').classList.add('show');
+    document.getElementById('dispNickname').textContent=nick;
+    const mt=document.getElementById('dispMode');
+    mt.textContent=mode==='hard'?'HARD':'NORMAL';
+    if(mode==='hard')mt.classList.add('hard');
+    document.getElementById('metaTotal').textContent=activeQs.length;
+
+    const area=document.getElementById('questionArea');
+    area.innerHTML='';
+    let curChar='';
+    activeQs.forEach((item,i)=>{
+        if(item.char!==curChar){
+            curChar=item.char;
+            const d=document.createElement('div');d.className='sec-div';
+            d.innerHTML='<span class="sec-num">'+curChar.toUpperCase()+'</span>';
+            area.appendChild(d);
+        }
+        const card=document.createElement('div');card.className='q-card';card.id='q-'+i;
+        let oh='';
+        item.opts.forEach((o,oi)=>{
+            oh+='<div class="opt" data-q="'+i+'" data-o="'+oi+'" onclick="selOpt('+i+','+oi+')"><input type="radio" name="q'+i+'" value="'+oi+'"><div class="opt-mark">'+labels[oi]+'</div><div class="opt-text">'+o+'</div></div>';
+        });
+        card.innerHTML='<div class="q-num">Q'+String(i+1).padStart(2,'0')+'</div><div class="q-text">'+item.q+'</div><div class="opt-list">'+oh+'</div>';
+        area.appendChild(card);
+    });
+    window.scrollTo({top:0});
+}
+
+function selOpt(qi,oi){
+    if(submitted)return;
+    userAns[qi]=oi;
+    const card=document.getElementById('q-'+qi);
+    card.classList.add('answered');
+    card.querySelectorAll('.opt').forEach(o=>o.classList.toggle('selected',+o.dataset.o===oi));
+}
+
+function submitExam(){
+    const total=activeQs.length;
+    const answered=Object.keys(userAns).length;
+    if(answered<total&&!confirm(total-answered+'문항이 미응답입니다. 제출하시겠습니까?'))return;
+    submitted=true;
+    let correct=0;
+    activeQs.forEach((item,i)=>{if(userAns[i]===item.ans)correct++;});
+    const score=Math.round((correct/total)*100);
+    const wrong=answered-correct,skip=total-answered;
+    let grade='F';
+    if(score>=95)grade='S+';else if(score>=90)grade='S';else if(score>=80)grade='A';else if(score>=70)grade='B';else if(score>=60)grade='C';else if(score>=40)grade='D';
+
+    document.getElementById('scoreNum').textContent=score;
+    document.getElementById('gradeBadge').textContent='GRADE : '+grade;
+    document.getElementById('stCorrect').textContent=correct;
+    document.getElementById('stWrong').textContent=wrong;
+    document.getElementById('stSkip').textContent=skip;
+    document.getElementById('rptNick').textContent=document.getElementById('dispNickname').textContent;
+    document.getElementById('reportCard').classList.add('show');
+    document.getElementById('actionBar').style.display='none';
+    document.getElementById('resultActions').style.display='flex';
+    document.getElementById('reportCard').scrollIntoView({behavior:'smooth'});
+}
+
+function showAnswers(){
+    activeQs.forEach((item,i)=>{
+        const card=document.getElementById('q-'+i);
+        card.querySelectorAll('.opt').forEach(o=>{
+            const oi=+o.dataset.o;
+            o.classList.remove('selected');
+            if(oi===item.ans)o.classList.add('reveal-correct');
+            else if(oi===userAns[i]&&userAns[i]!==item.ans)o.classList.add('reveal-wrong');
+        });
+        card.classList.remove('answered');
+        if(userAns[i]===item.ans)card.classList.add('correct');
+        else if(userAns[i]!==undefined)card.classList.add('wrong');
+    });
+    window.scrollTo({top:0,behavior:'smooth'});
+}
+
+async function exportReport(){
+    await document.fonts.ready;
+    const c=await html2canvas(document.getElementById('reportCard'),{backgroundColor:'#161619',scale:2,useCORS:true});
+    dl(c,'ARCH_TMI_성적표.png');
+}
+async function exportFull(){
+    await document.fonts.ready;
+    const c=await html2canvas(document.getElementById('examPage'),{backgroundColor:'#0a0a0c',scale:2,useCORS:true,windowWidth:800});
+    dl(c,'ARCH_TMI_시험지.png');
+}
+function dl(c,n){const a=document.createElement('a');a.download=n;a.href=c.toDataURL('image/png');a.click();}
+</script>
+</body>
+</html>
